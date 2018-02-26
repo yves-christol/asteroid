@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import { Links } from '../api/links.js';
 
 import Link from './Link.js';
+import AccountsUIWrapper from './AccountsUIWrapper.js';
 
 // url format tester
 function validURL(str) {
@@ -29,7 +31,7 @@ class App extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    if (!this.state.validInput) {
+    if (!this.state.validInput || !Meteor.user()) {
       return;
     }
     // Find the text field via the React ref
@@ -41,6 +43,8 @@ class App extends Component {
       url,
       text,
       createdAt: new Date(), // current time
+      owner: Meteor.userId(),           // _id of logged in user
+      username: Meteor.user().username,  // username of logged in user
     });
 
     // Clear form
@@ -60,25 +64,28 @@ class App extends Component {
       <div className="container">
         <header>
           <h1>Asteroid</h1>
-          <form
-            onChange={this.handleChange.bind(this)}
-            onSubmit={this.handleSubmit.bind(this)} >
-            <input
-              type="text"
-              ref="urlInput"
-              placeholder="Paste your url here"
-            />
-            <input
-              type="text"
-              ref="textInput"
-              placeholder="Type your comment here"
-            />
-            <input
-              type="submit"
-              value="Submit"
-              disabled={!this.state.validInput}
-            />
-          </form>
+          <AccountsUIWrapper />
+          { this.props.currentUser ?
+            <form
+              onChange={this.handleChange.bind(this)}
+              onSubmit={this.handleSubmit.bind(this)} >
+              <input className="linkForm"
+                type="text"
+                ref="urlInput"
+                placeholder="Paste your url here"
+              />
+              <input className="linkForm"
+                type="text"
+                ref="textInput"
+                placeholder="Type your description here"
+              />
+              <input className="linkForm"
+                type="submit"
+                value="Submit"
+                disabled={!this.state.validInput}
+              />
+            </form> : ''
+          }
         </header>
 
         <ul>
@@ -91,6 +98,7 @@ class App extends Component {
 
 export default withTracker(() => {
   return {
-    links: Links.find({}).fetch(),
+    links: Links.find({}, { sort: { createdAt: -1 } }).fetch(),
+    currentUser: Meteor.user(),
   };
 })(App);
