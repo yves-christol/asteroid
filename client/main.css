@@ -112,11 +112,7 @@ li .text {
 }
 
 li.marked {
-  color: #888;
-}
-
-li.marked .text {
-  text-decoration: line-through;
+  background: #eee;
 }
 
 li.private {

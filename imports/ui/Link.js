@@ -34,9 +34,10 @@ export default class Link extends Component {
         />
         <span className="text">
           <a target="_blank" href={this.props.link.url}>
-            {this.props.link.text}
+            {this.props.link.url}
           </a>
-          : from <strong>{this.props.link.username}</strong>
+          _{this.props.link.text}_
+          <small>_from {this.props.link.username}</small>
         </span>
       </li>
     );
