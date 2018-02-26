@@ -50,18 +50,39 @@ form {
   position: relative;
 }
 
-.new- input {
+input {
+  font-size: 1.2em;
+}
+
+input[type=text] {
   box-sizing: border-box;
+  color: #fff;
   padding: 10px 0;
   background: transparent;
   border: none;
-  width: 100%;
+  width: 85%;
   padding-right: 80px;
-  font-size: 1em;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
 }
 
-.new-link input:focus{
-  outline: 0;
+input[type=text]:focus {
+  border-color:#333;
+  outline: 1;
+}
+
+input[type=submit] {
+  padding:5px 15px;
+  background:#fff;
+  border:0 none;
+  cursor:pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+input[type=submit]:disabled {
+    color: transparent;
+    background: transparent;
 }
 
 ul {
@@ -109,6 +130,21 @@ header .hide-completed {
 
 .toggle-private {
   margin-left: 5px;
+}
+
+/* unvisited link */
+a:link {
+    color: #e87204;
+}
+
+/* visited link */
+a:visited {
+    color: #b75a03;
+}
+
+/* mouse over link */
+a:hover {
+    color: #fc881b;
 }
 
 @media (max-width: 600px) {
