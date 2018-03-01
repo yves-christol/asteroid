@@ -39,13 +39,7 @@ class App extends Component {
     const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
     // check for input consistency
 
-    Links.insert({
-      url,
-      text,
-      createdAt: new Date(), // current time
-      owner: Meteor.userId(),           // _id of logged in user
-      username: Meteor.user().username,  // username of logged in user
-    });
+    Meteor.call('links.insert', url, text);
 
     // Clear form
     ReactDOM.findDOMNode(this.refs.urlInput).value = '';
@@ -97,6 +91,7 @@ class App extends Component {
 }
 
 export default withTracker(() => {
+  Meteor.subscribe('links');
   return {
     links: Links.find({}, { sort: { createdAt: -1 } }).fetch(),
     currentUser: Meteor.user(),

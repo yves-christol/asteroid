@@ -1,31 +1,42 @@
 import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
+
 import { Links } from '../api/links.js';
 
 
-// Task component - represents a single todo item
+// Link component - represents a single link item
 export default class Link extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      // doesn't work
+      owned: Meteor.call('links.isOwned', this.props.link._id),
+    };
+  }
+
   toggleMarked() {
-    // Set the checked property to the opposite of its current value
-    Links.update(this.props.link._id, {
-      $set: { marked: !this.props.link.marked },
-    });
+    // Set the marked property to the opposite of its current value
+    Meteor.call('links.setMarked', this.props.link._id, !this.props.link.marked);
   }
 
   deleteThisLink() {
-    Links.remove(this.props.link._id);
+    Meteor.call('links.remove', this.props.link._id);
   }
 
   render() {
-    // Give tasks a different className when they are checked off,
+    // Give links a different className when they are marked,
     // so that we can style them nicely in CSS
     const linkClassName = this.props.link.marked ? 'marked' : '';
 
     return (
       <li className={linkClassName}>
-        <button className="delete" onClick={this.deleteThisLink.bind(this)}>
+        { this.state.owned ?
+          <button className="delete"
+          onClick={this.deleteThisLink.bind(this)}>
           &times;
-        </button>
-
+          </button> : ''
+        }
         <input
           type="checkbox"
           readOnly
