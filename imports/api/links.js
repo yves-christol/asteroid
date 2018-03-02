@@ -13,12 +13,6 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-  'links.isOwned'(linkId) {
-    check(linkId, String);
-    const link = Links.findOne(linkId);
-    return link && link.owner === this.userId;
-  },
-
   'links.insert'(url, text) {
     check(url, String);
     check(text, String);

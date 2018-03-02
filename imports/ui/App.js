@@ -49,7 +49,15 @@ class App extends Component {
 
   renderLinks() {
     return this.props.links.map((link) => (
-      <Link key={link._id} link={link} />
+      <
+        Link key={link._id}
+        link={link}
+        owned={
+          this.props.currentUser ?
+          this.props.currentUser._id == link.owner
+          : false
+        }
+      />
     ));
   }
 

@@ -7,14 +7,6 @@ import { Links } from '../api/links.js';
 // Link component - represents a single link item
 export default class Link extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      // doesn't work
-      owned: Meteor.call('links.isOwned', this.props.link._id),
-    };
-  }
-
   toggleMarked() {
     // Set the marked property to the opposite of its current value
     Meteor.call('links.setMarked', this.props.link._id, !this.props.link.marked);
@@ -31,7 +23,7 @@ export default class Link extends Component {
 
     return (
       <li className={linkClassName}>
-        { this.state.owned ?
+        { this.props.owned ?
           <button className="delete"
           onClick={this.deleteThisLink.bind(this)}>
           &times;

@@ -5,7 +5,6 @@ Accounts.config({
 });
 
 Accounts.onCreateUser((options, user) => {
-  console.log("User mail : "+user.emails[0].address);
   if (user && user.emails && user.emails[0] && user.emails[0].address) {
     let email = user.emails[0].address;
     user.username = email.substring(0, email.lastIndexOf("@")).replace('.', ' ');
