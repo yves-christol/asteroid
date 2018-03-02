@@ -6,6 +6,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Links } from '../api/links.js';
 
 import Link from './Link.js';
+import Search from './Search.js';
 import AccountsUIWrapper from './AccountsUIWrapper.js';
 
 // url format tester
@@ -17,7 +18,10 @@ function validURL(str) {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { validURL: false };
+    this.state = {
+      validURL: false,
+      searchText: '',
+    };
   }
 
   handleChange(event) {
@@ -34,7 +38,7 @@ class App extends Component {
     if (!this.state.validInput || !Meteor.user()) {
       return;
     }
-    // Find the text field via the React ref
+    // Find the text fields via the React ref
     const url = ReactDOM.findDOMNode(this.refs.urlInput).value.trim();
     const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
     // check for input consistency
@@ -89,7 +93,7 @@ class App extends Component {
             </form> : ''
           }
         </header>
-
+        <Search />
         <ul>
           {this.renderLinks()}
         </ul>

@@ -25,8 +25,8 @@ body {
 }
 
 header {
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
   background-image: url("asteroid.png");
   padding: 20px 15px 15px 15px;
   position: relative;
@@ -44,10 +44,53 @@ h1 {
   margin-right: 1em;
 }
 
-form {
-  margin-top: 10px;
-  margin-bottom: -10px;
+.searchForm {
+  background: #999;
+  color: #222;
+  padding: 10px 15px 10px 15px;
   position: relative;
+  font-size: 1.1em;
+}
+
+.searchForm[type=text] {
+  box-sizing: border-box;
+  color: #222;
+  padding: 10px 10px 10px 10px;
+  background: #aaa;
+  border: none;
+  width: 80%;
+  padding-right: 80px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.searchForm[type=text]:focus {
+  border-color:#000;
+  background: #ddd;
+  outline: 5;
+}
+
+.searchForm[type=submit] {
+  position: relative;
+  float: right;
+  padding: 10px 10px;
+  background:#fff;
+  color: #000;
+  border:0 none;
+  cursor:pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.searchForm[type=submit]:disabled {
+  color: #000;
+  background: #222;
+}
+
+.sender {
+  color: #222;
+  padding: 10px 15px 10px 15px;
+  font-size: 0.8em;
 }
 
 .linkForm {
@@ -57,22 +100,25 @@ form {
 .linkForm[type=text] {
   box-sizing: border-box;
   color: #fff;
-  padding: 10px 0;
+  padding: 10px 10px 10px 10px;
   background: transparent;
   border: none;
-  width: 85%;
+  width: 80%;
   padding-right: 80px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
 
 .linkForm[type=text]:focus {
-  border-color:#333;
+  border-color:#eee;
+  background: #222;
   outline: 1;
 }
 
 .linkForm[type=submit] {
-  padding:5px 15px;
+  position: relative;
+  float: right;
+  padding: 10px 10px 10px 10px;
   background:#fff;
   border:0 none;
   cursor:pointer;
@@ -131,6 +177,7 @@ header .hide-completed {
 /* unvisited link */
 a:link {
     color: #e87204;
+    text-decoration:none;
 }
 
 /* visited link */

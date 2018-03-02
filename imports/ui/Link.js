@@ -37,10 +37,12 @@ export default class Link extends Component {
         />
         <span className="text">
           <a target="_blank" href={this.props.link.url}>
-            {this.props.link.url}
+            {this.props.link.text}
           </a>
-          _{this.props.link.text}_
-          <small>_from {this.props.link.username}</small>
+        </span>
+        <span className="sender">
+          posted by
+          { this.props.owned ? ' me.' : ` ${this.props.link.username}.`}
         </span>
       </li>
     );
