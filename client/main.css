@@ -56,10 +56,9 @@ h1 {
   box-sizing: border-box;
   color: #222;
   padding: 10px 10px 10px 10px;
+  width: 50%;
   background: #aaa;
   border: none;
-  width: 80%;
-  padding-right: 80px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
@@ -68,23 +67,6 @@ h1 {
   border-color:#000;
   background: #ddd;
   outline: 5;
-}
-
-.searchForm[type=submit] {
-  position: relative;
-  float: right;
-  padding: 10px 10px;
-  background:#fff;
-  color: #000;
-  border:0 none;
-  cursor:pointer;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
-
-.searchForm[type=submit]:disabled {
-  color: #000;
-  background: #222;
 }
 
 .sender {

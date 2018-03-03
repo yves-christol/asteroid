@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
+import { Session } from 'meteor/session';
+
 import { Links } from '../api/links.js';
 
 import Link from './Link.js';
@@ -22,6 +24,7 @@ class App extends Component {
       validURL: false,
       searchText: '',
     };
+    Session.set({'searchText': 'lo'});
   }
 
   handleChange(event) {
@@ -103,7 +106,7 @@ class App extends Component {
 }
 
 export default withTracker(() => {
-  Meteor.subscribe('links');
+  Meteor.subscribe('links', Session.get('searchQuery'));
   return {
     links: Links.find({}, { sort: { createdAt: -1 } }).fetch(),
     currentUser: Meteor.user(),

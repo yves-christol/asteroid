@@ -5,9 +5,29 @@ import { check } from 'meteor/check';
 export const Links = new Mongo.Collection('links');
 
 if (Meteor.isServer) {
-  // This code only runs on the server
-  Meteor.publish('links', function tasksPublication() {
-    return Links.find();
+  // This is for improving search speed later on
+  Links._ensureIndex({
+    'url': 'text',
+    'text': 'text',
+    'username': 'text',
+  })
+  // This publication depends dynamically on the search query
+  Meteor.publish('links', function (search) {
+    let query      = {},
+        projection = { limit: 100, sort: { title: 1 } };
+
+    if ( search ) {
+      let regex = new RegExp( search, 'i' );
+      query = {
+        $or: [
+          { url: regex },
+          { text: regex },
+          { username: regex }
+        ]
+      };
+      projection.limit = 100;
+    }
+    return Links.find( query, projection );
   });
 }
 
