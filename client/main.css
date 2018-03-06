@@ -44,37 +44,6 @@ h1 {
   margin-right: 1em;
 }
 
-.searchForm {
-  background: #999;
-  color: #222;
-  padding: 10px 15px 10px 15px;
-  position: relative;
-  font-size: 1.1em;
-}
-
-.searchForm[type=text] {
-  box-sizing: border-box;
-  color: #222;
-  padding: 10px 10px 10px 10px;
-  width: 50%;
-  background: #aaa;
-  border: none;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
-
-.searchForm[type=text]:focus {
-  border-color:#000;
-  background: #ddd;
-  outline: 5;
-}
-
-.sender {
-  color: #222;
-  padding: 10px 15px 10px 15px;
-  font-size: 0.8em;
-}
-
 .linkForm {
   font-size: 1.2em;
 }
@@ -113,17 +82,58 @@ h1 {
     background: #222;
 }
 
+.searchBar {
+  display: grid;
+  grid-template-columns: 10% 20% 70%;
+  grid-column-gap: 10px;
+  background: #999;
+  color: #222;
+  padding: 10px 15px 10px 15px;
+}
+
+.clipboardButton {
+  grid-column: 1;
+  background: #eee;
+  font-size: 1.6em;
+  border: none;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.searchSort {
+  grid-column: 2;
+  background: #eee;
+  font-size: 1.1em;
+  border: none;
+  padding: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.searchForm[type=text] {
+  grid-column: 3;
+  width: 80%;
+  padding: 5px 5px 5px 5px;
+  font-size: 1.2em;
+  color: #fff;
+  background: #aaa;
+  border: none;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+
 ul {
   margin: 0;
   padding: 0;
   background: white;
 }
 
-.delete {
+.manage {
   float: right;
   font-weight: bold;
   background: none;
-  font-size: 1em;
+  font-size: 1.1em;
   border: none;
   position: relative;
 }
@@ -140,6 +150,10 @@ li .text {
 }
 
 li.marked {
+  background: #ea4;
+}
+
+li.odd {
   background: #eee;
 }
 
@@ -154,6 +168,12 @@ header .hide-completed {
 
 .toggle-private {
   margin-left: 5px;
+}
+
+.sender {
+  color: #222;
+  padding: 10px 15px 10px 15px;
+  font-size: 0.8em;
 }
 
 /* unvisited link */

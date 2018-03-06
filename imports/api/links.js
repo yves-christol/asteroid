@@ -61,10 +61,4 @@ Meteor.methods({
     Links.remove(linkId);
   },
 
-  'links.setMarked'(linkId, setMarked) {
-    check(linkId, String);
-    check(setMarked, Boolean);
-
-    Links.update(linkId, { $set: { marked: setMarked } });
-  },
 });

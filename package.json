@@ -9,6 +9,7 @@
     "bcrypt": "^1.0.3",
     "meteor-node-stubs": "^0.3.2",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-icons": "^2.2.7"
   }
 }
