@@ -8,6 +8,8 @@ import { Session } from 'meteor/session';
 
 import GoSearch from 'react-icons/lib/go/search';
 import GoClippy from 'react-icons/lib/go/clippy';
+import GoCalendar from 'react-icons/lib/go/calendar';
+import GoArrowDown from 'react-icons/lib/go/arrow-down';
 
 
 // Link component - represents a single link item
@@ -34,11 +36,20 @@ export default class Search extends Component {
           </button>
         </div>
         <div>
-          <select className='searchSort'>
-            <option className='searchSortItem' value="date">By date</option>
-            <option className='searchSortItem' value="liked">Most liked</option>
-            <option className='searchSortItem' value="sender">By sender</option>
-          </select>
+          <button
+            className='searchSort'
+            onClick={this.handleClick.bind(this)}
+          >
+           <GoCalendar />
+          </button>
+        </div>
+        <div>
+          <button
+            className='searchSort'
+            onClick={this.handleClick.bind(this)}
+          >
+           <GoArrowDown />
+          </button>
         </div>
         <div>
           <GoSearch className='searchIcon'/>

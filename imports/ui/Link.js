@@ -32,6 +32,8 @@ export default class Link extends Component {
     // so that we can style them nicely in CSS
     const linkClassName = this.props.selected ?
                           'marked' : this.props.odd ? 'odd' : '';
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = this.props.link.createdAt.toLocaleDateString("en-US", options);
 
     return (
       <li className={linkClassName}>
@@ -65,6 +67,8 @@ export default class Link extends Component {
           <GoLink />
           posted by
           { this.props.owned ? ' me.' : ` ${this.props.link.username}.`}
+          on the
+          { ` ${date}.`}
         </span>
       </li>
     );

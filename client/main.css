@@ -84,7 +84,7 @@ h1 {
 
 .searchBar {
   display: grid;
-  grid-template-columns: 10% 20% 70%;
+  grid-template-columns: 12% 6% 6% 76%;
   grid-column-gap: 10px;
   background: #999;
   color: #222;
@@ -92,7 +92,6 @@ h1 {
 }
 
 .clipboardButton {
-  grid-column: 1;
   background: #ea4;
   font-size: 1.6em;
   border: none;
@@ -102,13 +101,20 @@ h1 {
 
 .clipboardButton:disabled {
   background: #999;
-  color: #222;
+  color: #555;
 }
 
 .searchSort {
-  grid-column: 2;
-  background: #eee;
-  font-size: 1.1em;
+  background: #999;
+  font-size: 1.6em;
+  border: none;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.searchOrder {
+  background: #999;
+  font-size: 1.6em;
   border: none;
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -124,7 +130,6 @@ h1 {
 }
 
 .searchForm[type=text] {
-  grid-column: 3;
   width: 80%;
   padding: 5px 5px 5px 5px;
   font-size: 1.2em;
