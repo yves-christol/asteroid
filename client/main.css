@@ -93,11 +93,16 @@ h1 {
 
 .clipboardButton {
   grid-column: 1;
-  background: #eee;
+  background: #ea4;
   font-size: 1.6em;
   border: none;
   -webkit-border-radius: 5px;
   border-radius: 5px;
+}
+
+.clipboardButton:disabled {
+  background: #999;
+  color: #222;
 }
 
 .searchSort {
@@ -105,9 +110,17 @@ h1 {
   background: #eee;
   font-size: 1.1em;
   border: none;
-  padding: 5px 5px 5px 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
+}
+
+.searchSortItem {
+  padding: 5px 5px 5px 5px;
+}
+
+.searchIcon {
+  font-size: 1.6em;
+  padding: 5px 5px 5px 5px;
 }
 
 .searchForm[type=text] {

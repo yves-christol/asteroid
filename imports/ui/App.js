@@ -11,30 +11,6 @@ import Link from './Link.js';
 import Search from './Search.js';
 import AccountsUIWrapper from './AccountsUIWrapper.js';
 
-// clipboard export selected links
-function copyToClipboard(text) {
-    if (window.clipboardData && window.clipboardData.setData) {
-        // IE specific code path to prevent textarea being shown while dialog is visible.
-        return clipboardData.setData("Text", text);
-
-    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
-        var textarea = document.createElement("textarea");
-        textarea.textContent = text;
-        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
-        } catch (ex) {
-            console.warn("Copy to clipboard failed.", ex);
-            return false;
-        } finally {
-            document.body.removeChild(textarea);
-        }
-    }
-}
-
-
 // url format tester
 function validURL(str) {
   return str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
@@ -48,22 +24,51 @@ class App extends Component {
       validInput: false,
       selectedLinks: [],
     };
+    this.text = '';
     Session.set({'searchText': ''});
     this.selectLink = this.selectLink.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.copyToClipboard = this.copyToClipboard.bind(this);
+  }
+
+  // clipboard export selected links
+  copyToClipboard() {
+    const textArea = document.createElement('textarea');
+    textArea.style.position = 'fixed';
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = this.text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      const successful = document.execCommand('copy');
+      const msg = successful ? 'successful' : 'unsuccessful';
+      console.log(`Copying text command was ${msg}`);
+    } catch (err) {
+      console.log('Oops, unable to copy');
+    }
+    document.body.removeChild(textArea);
+    this.setState({selectedLinks : []});
   }
 
   selectLink(linkId) {
-    let selection = this.state.selectedLinks;
-    const index = selection.indexOf(linkId);
-    if (index > -1) {
-      selection = selection.splice(index, 1);
+    let sel = this.state.selectedLinks;
+    const index = sel.indexOf(linkId);
+    if (index !== -1) {
+      sel.splice(index, 1);
     } else {
-      selection.push(linkId);
+      sel.push(linkId);
     }
-    this.setState( {selectedLinks: selection});
-    console.log(`selection : ${selection}`);
+    this.setState({selectedLinks: sel});
+    Meteor.call('links.getText', this.state.selectedLinks, (error, result) => this.text = result);
   }
 
   handleChange(event) {
@@ -96,16 +101,16 @@ class App extends Component {
 
   renderLinks() {
     return this.props.links.map((link, index) => (
-      <
-        Link key={link._id}
+      < Link
+        key={link._id}
         link={link}
-        odd={index%2 == 1}
-        selected={link._id in this.state.selectedLinks}
+        odd={index % 2 == 1}
         owned={
           this.props.currentUser ?
           this.props.currentUser._id == link.owner
           : false
         }
+        selected={this.state.selectedLinks.indexOf(link._id) !== -1}
         onSelect={this.selectLink}
       />
     ));
@@ -139,7 +144,10 @@ class App extends Component {
             </form> : ''
           }
         </header>
-        <Search />
+        <Search
+          clipboardIsEmpty={this.state.selectedLinks.length == 0}
+          handleClipboard={this.copyToClipboard}
+        />
         <ul>
           {this.renderLinks()}
         </ul>

@@ -13,6 +13,11 @@ import GoTrashcan from 'react-icons/lib/go/trashcan';
 
 // Link component - represents a single link item
 export default class Link extends Component {
+  constructor(props) {
+    super(props);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.deleteThisLink = this.deleteThisLink.bind(this);
+  }
 
   handleSelect(event) {
     this.props.onSelect(this.props.link._id);
@@ -25,7 +30,7 @@ export default class Link extends Component {
   render() {
     // Give links a different className when they are marked,
     // so that we can style them nicely in CSS
-    const linkClassName = this.props.link.marked ?
+    const linkClassName = this.props.selected ?
                           'marked' : this.props.odd ? 'odd' : '';
 
     return (
@@ -36,7 +41,7 @@ export default class Link extends Component {
           </button>
         }
         { this.props.owned ?
-          <button className="manage" onClick={this.deleteThisLink.bind(this)}>
+          <button className="manage" onClick={this.deleteThisLink}>
             <GoTrashcan />
           </button>  : ''
         }
@@ -49,7 +54,7 @@ export default class Link extends Component {
           type="checkbox"
           readOnly
           checked={this.props.selected}
-          onClick={this.handleSelect.bind(this)}
+          onClick={this.handleSelect}
         />
         <span className="text">
           <a target="_blank" href={this.props.link.url}>

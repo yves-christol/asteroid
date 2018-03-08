@@ -61,4 +61,18 @@ Meteor.methods({
     Links.remove(linkId);
   },
 
+  'links.getText'(linkIds) {
+    check(linkIds, Array);
+    let text = '';
+    for (const linkId of linkIds) {
+      if (linkId) {
+        const link = Links.findOne(linkId);
+        if (link) {
+          text = text + `${link.text} -> ${link.url} \n`
+        }
+      }
+    }
+    return text;
+  }
+
 });

@@ -6,7 +6,7 @@ import { Links } from '../api/links.js';
 
 import { Session } from 'meteor/session';
 
-//import GoSearch from 'react-icons/lib/go/search';
+import GoSearch from 'react-icons/lib/go/search';
 import GoClippy from 'react-icons/lib/go/clippy';
 
 
@@ -17,11 +17,19 @@ export default class Search extends Component {
 		Session.set({'searchQuery': search});
   }
 
+  handleClick(event) {
+    this.props.handleClipboard();
+  }
+
   render() {
     return (
       <div className='searchBar'>
         <div>
-          <button className='clipboardButton'>
+          <button
+            className='clipboardButton'
+            disabled={this.props.clipboardIsEmpty}
+            onClick={this.handleClick.bind(this)}
+          >
             <GoClippy />
           </button>
         </div>
@@ -33,6 +41,7 @@ export default class Search extends Component {
           </select>
         </div>
         <div>
+          <GoSearch className='searchIcon'/>
           <input className='searchForm'
             type='text'
             ref='searchInput'
