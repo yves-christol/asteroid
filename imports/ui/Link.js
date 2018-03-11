@@ -16,11 +16,21 @@ export default class Link extends Component {
   constructor(props) {
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
     this.deleteThisLink = this.deleteThisLink.bind(this);
+    this.addHeart = this.addHeart.bind(this);
   }
 
   handleSelect(event) {
     this.props.onSelect(this.props.link._id);
+  }
+
+  handleEdit(event) {
+    this.props.onEdit(this.props.link.url, this.props.link.text);
+  }
+
+  addHeart() {
+    Meteor.call('links.addHeart', this.props.link._id);
   }
 
   deleteThisLink() {
@@ -37,18 +47,16 @@ export default class Link extends Component {
 
     return (
       <li className={linkClassName}>
-        { this.props.owned ? '' :
-          <button className="manage" >
-            <GoHeart />
-          </button>
-        }
+        <button className="hearts" onClick={this.addHeart}>
+          <GoHeart /> {this.props.link.hearts}
+        </button>
         { this.props.owned ?
           <button className="manage" onClick={this.deleteThisLink}>
             <GoTrashcan />
           </button>  : ''
         }
         { this.props.owned ?
-          <button className="manage">
+          <button className="manage" onClick={this.handleEdit}>
             <GoPencil />
           </button> : ''
         }

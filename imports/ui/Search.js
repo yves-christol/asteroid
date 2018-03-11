@@ -10,6 +10,9 @@ import GoSearch from 'react-icons/lib/go/search';
 import GoClippy from 'react-icons/lib/go/clippy';
 import GoCalendar from 'react-icons/lib/go/calendar';
 import GoArrowDown from 'react-icons/lib/go/arrow-down';
+import GoArrowUp from 'react-icons/lib/go/arrow-up';
+import GoPerson from 'react-icons/lib/go/person';
+import GoHeart from 'react-icons/lib/go/heart';
 
 
 // Link component - represents a single link item
@@ -19,10 +22,6 @@ export default class Search extends Component {
 		Session.set({'searchQuery': search});
   }
 
-  handleClick(event) {
-    this.props.handleClipboard();
-  }
-
   render() {
     return (
       <div className='searchBar'>
@@ -30,7 +29,7 @@ export default class Search extends Component {
           <button
             className='clipboardButton'
             disabled={this.props.clipboardIsEmpty}
-            onClick={this.handleClick.bind(this)}
+            onClick={this.props.handleClipboard}
           >
             <GoClippy />
           </button>
@@ -38,17 +37,21 @@ export default class Search extends Component {
         <div>
           <button
             className='searchSort'
-            onClick={this.handleClick.bind(this)}
+            onClick={this.props.changeSortBy}
           >
-           <GoCalendar />
+            { Session.get('searchSortBy')=='createdAt' ?
+              <GoCalendar /> : Session.get('searchSortBy')=='username' ?
+              <GoPerson /> :
+              <GoHeart />
+            }
           </button>
         </div>
         <div>
           <button
             className='searchSort'
-            onClick={this.handleClick.bind(this)}
+            onClick={this.props.changeSortOrder}
           >
-           <GoArrowDown />
+           {Session.get('searchOrder') ? <GoArrowDown /> : <GoArrowUp />}
           </button>
         </div>
         <div>

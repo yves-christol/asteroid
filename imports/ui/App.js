@@ -26,10 +26,15 @@ class App extends Component {
     };
     this.text = '';
     Session.set({'searchText': ''});
+    Session.set({'searchSortBy': 'createdAt'});
+    Session.set({'searchOrder': true});
     this.selectLink = this.selectLink.bind(this);
+    this.editLink = this.editLink.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.copyToClipboard = this.copyToClipboard.bind(this);
+    this.changeSortBy = this.changeSortBy.bind(this);
+    this.changeSortOrder = this.changeSortOrder.bind(this);
   }
 
   // clipboard export selected links
@@ -59,6 +64,24 @@ class App extends Component {
     this.setState({selectedLinks : []});
   }
 
+  changeSortBy(event) {
+    switch (Session.get('searchSortBy')) {
+      case 'createdAt':
+        Session.set({'searchSortBy': 'username'});
+        break;
+      case 'username':
+        Session.set({'searchSortBy': 'hearts'});
+        break;
+      default :
+        Session.set({'searchSortBy': 'createdAt'});
+        break;
+    }
+  }
+
+  changeSortOrder(event) {
+    Session.set({'searchOrder': !Session.get('searchOrder')});
+  }
+
   selectLink(linkId) {
     let sel = this.state.selectedLinks;
     const index = sel.indexOf(linkId);
@@ -69,6 +92,11 @@ class App extends Component {
     }
     this.setState({selectedLinks: sel});
     Meteor.call('links.getText', this.state.selectedLinks, (error, result) => this.text = result);
+  }
+
+  editLink(url, text) {
+    ReactDOM.findDOMNode(this.refs.urlInput).value = url;
+    ReactDOM.findDOMNode(this.refs.textInput).value = text;
   }
 
   handleChange(event) {
@@ -91,7 +119,6 @@ class App extends Component {
     // check for input consistency
 
     Meteor.call('links.insert', url, text);
-    copyToClipboard(`> ${url} - ${text} `);
 
     // Clear form
     ReactDOM.findDOMNode(this.refs.urlInput).value = '';
@@ -112,6 +139,7 @@ class App extends Component {
         }
         selected={this.state.selectedLinks.indexOf(link._id) !== -1}
         onSelect={this.selectLink}
+        onEdit={this.editLink}
       />
     ));
   }
@@ -147,6 +175,10 @@ class App extends Component {
         <Search
           clipboardIsEmpty={this.state.selectedLinks.length == 0}
           handleClipboard={this.copyToClipboard}
+          sortBy={Session.get('searchSortBy')}
+          changeSortBy={this.changeSortBy}
+          order={Session.get('searchOrder')}
+          changeSortOrder={this.changeSortOrder}
         />
         <ul>
           {this.renderLinks()}
@@ -158,8 +190,10 @@ class App extends Component {
 
 export default withTracker(() => {
   Meteor.subscribe('links', Session.get('searchQuery'));
+  const sortBy = Session.get('searchSortBy');
+  const order = Session.get('searchOrder');
   return {
-    links: Links.find({}, { sort: { createdAt: -1 } }).fetch(),
+    links: Links.find({}, { sort: { [sortBy]: order ? -1 : 1} }).fetch(),
     currentUser: Meteor.user(),
   };
 })(App);
