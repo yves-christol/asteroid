@@ -2,6 +2,8 @@ import { Accounts } from 'meteor/accounts-base';
 
 Accounts.config({
   restrictCreationByEmailDomain: 'orange.com',
+  //sendVerificationEmail: true,
+  //forbidClientAccountCreation: true,
 });
 
 Accounts.onCreateUser((options, user) => {

@@ -51,7 +51,7 @@ export default class Search extends Component {
             className='searchSort'
             onClick={this.props.changeSortOrder}
           >
-           {Session.get('searchOrder') ? <GoArrowDown /> : <GoArrowUp />}
+           {(Session.get('searchOrder') == 1) ? <GoArrowDown /> : <GoArrowUp />}
           </button>
         </div>
         <div>

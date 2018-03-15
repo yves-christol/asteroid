@@ -12,9 +12,9 @@ if (Meteor.isServer) {
     'username': 'text',
   })
   // This publication depends dynamically on the search query
-  Meteor.publish('links', function (search) {
+  Meteor.publish('links', function (search, sortBy, order, limit) {
     let query      = {},
-        projection = { limit: 100, sort: { title: 1 } };
+        projection = { limit, sort: { [sortBy]: order} };
 
     if ( search ) {
       let regex = new RegExp( search, 'i' );
@@ -25,7 +25,6 @@ if (Meteor.isServer) {
           { username: regex }
         ]
       };
-      projection.limit = 100;
     }
     return Links.find( query, projection );
   });

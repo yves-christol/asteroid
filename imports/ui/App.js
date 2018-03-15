@@ -11,6 +11,9 @@ import Link from './Link.js';
 import Search from './Search.js';
 import AccountsUIWrapper from './AccountsUIWrapper.js';
 
+// max number of links displaid
+const limitValues = [10, 50, 100, 300];
+
 // url format tester
 function validURL(str) {
   return str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
@@ -27,7 +30,8 @@ class App extends Component {
     this.text = '';
     Session.set({'searchText': ''});
     Session.set({'searchSortBy': 'createdAt'});
-    Session.set({'searchOrder': true});
+    Session.set({'searchOrder': 1});
+    Session.set({'searchLimit': 0});
     this.selectLink = this.selectLink.bind(this);
     this.editLink = this.editLink.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -79,7 +83,7 @@ class App extends Component {
   }
 
   changeSortOrder(event) {
-    Session.set({'searchOrder': !Session.get('searchOrder')});
+    Session.set({'searchOrder': (Session.get('searchOrder') == 1) ? -1 : 1});
   }
 
   selectLink(linkId) {
@@ -189,11 +193,13 @@ class App extends Component {
 }
 
 export default withTracker(() => {
-  Meteor.subscribe('links', Session.get('searchQuery'));
-  const sortBy = Session.get('searchSortBy');
-  const order = Session.get('searchOrder');
+  const search = Session.get('searchQuery'),
+        sortBy = Session.get('searchSortBy'),
+        order = Session.get('searchOrder'),
+        limit = limitValues[Session.get('searchLimit')];
+  Meteor.subscribe('links', search, sortBy, order, limit);
   return {
-    links: Links.find({}, { sort: { [sortBy]: order ? -1 : 1} }).fetch(),
+    links: Links.find({}, {sort : { [sortBy]: order }}).fetch(),
     currentUser: Meteor.user(),
   };
 })(App);

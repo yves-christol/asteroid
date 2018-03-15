@@ -48,7 +48,8 @@ export default class Link extends Component {
     return (
       <li className={linkClassName}>
         <button className="hearts" onClick={this.addHeart}>
-          <GoHeart /> {this.props.link.hearts}
+          {this.props.link.hearts}
+          <GoHeart />
         </button>
         { this.props.owned ?
           <button className="manage" onClick={this.deleteThisLink}>
