@@ -48,6 +48,11 @@ h1 {
   font-size: 1.2em;
 }
 
+.info {
+  padding: 20px 15px 15px 15px;
+  font-size: 1.2em;
+}
+
 .linkForm[type=text] {
   box-sizing: border-box;
   color: #fff;
@@ -147,14 +152,64 @@ ul {
   background: white;
 }
 
-.hearts {
+.hearts0 {
   float: right;
   color: #e00;
   font-weight: bold;
   background: none;
-  font-size: 1.1em;
   border: none;
   position: relative;
+  font-size: 0.8em;
+}
+
+.hearts1 {
+  float: right;
+  color: #e00;
+  font-weight: bold;
+  background: none;
+  border: none;
+  position: relative;
+  font-size: 1em;
+}
+
+.hearts2 {
+  float: right;
+  color: #e00;
+  font-weight: bold;
+  background: none;
+  border: none;
+  position: relative;
+  font-size: 1.2em;
+}
+
+.hearts3 {
+  float: right;
+  color: #e00;
+  font-weight: bold;
+  background: none;
+  border: none;
+  position: relative;
+  font-size: 1.4em;
+}
+
+.hearts4 {
+  float: right;
+  color: #e00;
+  font-weight: bold;
+  background: none;
+  border: none;
+  position: relative;
+  font-size: 1.6em;
+}
+
+.hearts5 {
+  float: right;
+  color: #e00;
+  font-weight: bold;
+  background: none;
+  border: none;
+  position: relative;
+  font-size: 1.8em;
 }
 
 .manage {
@@ -164,6 +219,53 @@ ul {
   font-size: 1.1em;
   border: none;
   position: relative;
+}
+
+.footBar {
+  display: grid;
+  grid-template-columns: 40% 50% 10%;
+  grid-column-gap: 10px;
+  background: #999;
+  color: #222;
+  padding: 5px 5px 5px 5px;
+}
+
+.footButton {
+  background: #999;
+  padding: 0px 10px 0px 5px;
+  font-size: 1.4em;
+  border: none;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.footButton:disabled {
+  color: #555;
+}
+
+.footText {
+  background: #999;
+  padding: 5px 5px 5px 5px;
+  font-size: 1.1em;
+  border: none;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.footInfoOff {
+  background: transparent;
+  font-size: 1.6em;
+  border: none;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.footInfoOn {
+  background: #ea4;
+  font-size: 1.6em;
+  border: none;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
 }
 
 li {

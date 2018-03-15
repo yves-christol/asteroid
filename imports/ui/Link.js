@@ -5,7 +5,6 @@ import { Links } from '../api/links.js';
 
 // Icon selection from https://octicons.github.com/icon
 import GoHeart from 'react-icons/lib/go/heart';
-import GoLink from 'react-icons/lib/go/link';
 import GoClippy from 'react-icons/lib/go/clippy';
 import GoPencil from 'react-icons/lib/go/pencil';
 import GoTrashcan from 'react-icons/lib/go/trashcan';
@@ -44,38 +43,39 @@ export default class Link extends Component {
                           'marked' : this.props.odd ? 'odd' : '';
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     const date = this.props.link.createdAt.toLocaleDateString("en-US", options);
+    const heartStyle = `hearts${this.props.link.hearts}`;
 
     return (
       <li className={linkClassName}>
-        <button className="hearts" onClick={this.addHeart}>
-          {this.props.link.hearts}
+        <button
+          className={heartStyle}
+          onClick={this.addHeart}>
           <GoHeart />
         </button>
         { this.props.owned ?
-          <button className="manage" onClick={this.deleteThisLink}>
+          <button className='manage' onClick={this.deleteThisLink}>
             <GoTrashcan />
           </button>  : ''
         }
         { this.props.owned ?
-          <button className="manage" onClick={this.handleEdit}>
+          <button className='manage' onClick={this.handleEdit}>
             <GoPencil />
           </button> : ''
         }
         <input
-          type="checkbox"
+          type='checkbox'
           readOnly
           checked={this.props.selected}
           onClick={this.handleSelect}
         />
-        <span className="text">
-          <a target="_blank" href={this.props.link.url}>
+        <span className='text'>
+          <a target='_blank' href={this.props.link.url}>
             {this.props.link.text}
           </a>
         </span>
-        <span className="sender">
-          <GoLink />
+        <span className='sender'>
           posted by
-          { this.props.owned ? ' me.' : ` ${this.props.link.username}.`}
+          { this.props.owned ? ' me ' : ` ${this.props.link.username} `}
           on the
           { ` ${date}.`}
         </span>

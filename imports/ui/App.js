@@ -9,10 +9,11 @@ import { Links } from '../api/links.js';
 
 import Link from './Link.js';
 import Search from './Search.js';
+import Foot from './Foot.js';
 import AccountsUIWrapper from './AccountsUIWrapper.js';
 
 // max number of links displaid
-const limitValues = [10, 50, 100, 300];
+const limitValues = [10, 20, 50, 100];
 
 // url format tester
 function validURL(str) {
@@ -24,13 +25,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      infoMode: false,
       validInput: false,
       selectedLinks: [],
     };
     this.text = '';
     Session.set({'searchText': ''});
     Session.set({'searchSortBy': 'createdAt'});
-    Session.set({'searchOrder': 1});
+    Session.set({'searchOrder': -1});
     Session.set({'searchLimit': 0});
     this.selectLink = this.selectLink.bind(this);
     this.editLink = this.editLink.bind(this);
@@ -39,6 +41,9 @@ class App extends Component {
     this.copyToClipboard = this.copyToClipboard.bind(this);
     this.changeSortBy = this.changeSortBy.bind(this);
     this.changeSortOrder = this.changeSortOrder.bind(this);
+    this.moreLinks = this.moreLinks.bind(this);
+    this.lessLinks = this.lessLinks.bind(this);
+    this.switchInfo = this.switchInfo.bind(this);
   }
 
   // clipboard export selected links
@@ -84,6 +89,24 @@ class App extends Component {
 
   changeSortOrder(event) {
     Session.set({'searchOrder': (Session.get('searchOrder') == 1) ? -1 : 1});
+  }
+
+  moreLinks(event) {
+    const limitIdx = Session.get('searchLimit');
+    if (limitIdx < limitValues.length) {
+      Session.set({'searchLimit': limitIdx + 1})
+    }
+  }
+
+  lessLinks(event) {
+    const limitIdx = Session.get('searchLimit');
+    if (limitIdx > 0) {
+      Session.set({'searchLimit': limitIdx - 1})
+    }
+  }
+
+  switchInfo(event) {
+    this.setState({infoMode: !this.state.infoMode});
   }
 
   selectLink(linkId) {
@@ -148,6 +171,20 @@ class App extends Component {
     ));
   }
 
+  renderInfo() {
+    return (
+      <ul className='info'>
+      This is a personal website to manage curated links and share them easily
+      thanks to search, select and copy to clipboard features. It is not a
+      commercial nor a waranted in any form service, but just a toy made
+      to learn some <a href='http://www.meteor.com'> Meteor </a> and some
+      <a href='http://reactjs.org'> React</a> basics. Feel free to fork the
+      code <a href='https://github.com/yves-christol/asteroid'> here</a>.
+      Thank you for visiting.
+      </ul>
+    )
+  }
+
   render() {
     return (
       <div className="container">
@@ -185,8 +222,18 @@ class App extends Component {
           changeSortOrder={this.changeSortOrder}
         />
         <ul>
-          {this.renderLinks()}
+          {this.state.infoMode ? this.renderInfo() : this.renderLinks()}
         </ul>
+        <Foot
+          count={Links.find().count()}
+          total={this.props.total}
+          limitIdx={Session.get('searchLimit')}
+          maxLimitIdx={limitValues.length - 1}
+          moreLinks={this.moreLinks}
+          lessLinks={this.lessLinks}
+          info={this.state.infoMode}
+          switchInfo={this.switchInfo}
+        />
       </div>
     );
   }
@@ -198,8 +245,10 @@ export default withTracker(() => {
         order = Session.get('searchOrder'),
         limit = limitValues[Session.get('searchLimit')];
   Meteor.subscribe('links', search, sortBy, order, limit);
+  Meteor.subscribe('counters');
   return {
     links: Links.find({}, {sort : { [sortBy]: order }}).fetch(),
     currentUser: Meteor.user(),
+    total: Counts.get('nbLinks'),
   };
 })(App);

@@ -28,6 +28,10 @@ if (Meteor.isServer) {
     }
     return Links.find( query, projection );
   });
+  // To get updated on number of links
+  Meteor.publish('counters', function() {
+    Counts.publish(this, 'nbLinks', Links.find());
+  });
 }
 
 Meteor.methods({
