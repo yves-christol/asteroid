@@ -1,7 +1,8 @@
 {
   "galaxy.meteor.com": {
      "env": {
-       "MONGO_URL": "mongodb://meteoryc:ppa666$@ds247078.mlab.com:47078/yc-mongo"
+       "MONGO_URL": "mongodb://meteoryc:ppa666$@ds247078.mlab.com:47078/yc-mongo",
+       "MAIL_URL": "smtps://asteroid:Mail4Meteor@smtp.orange.fr:465",
      }
    }
 }

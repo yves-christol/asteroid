@@ -39,10 +39,19 @@ Meteor.methods({
   'links.insert'(url, text) {
     check(url, String);
     check(text, String);
-    // Make sure the user is logged in before inserting a task
-    if (! this.userId) {
-      throw new Meteor.Error('not-authorized');
+    // Make sure the user is logged in
+    if (!this.userId) {
+      return;
     }
+    // Then check if his email is verified
+    const user = Meteor.users.findOne(this.userId);
+    if (!user || !user.emails || !user.emails[0].verified) {
+      if (Meteor.isClient) {
+        alert("Please verify your email address before posting new links.");
+      }
+      return;
+    }
+    // if the same url is already in base just update it otherwise insert it
     link = Links.findOne({url: url});
     if (link) {
       Links.update(link._id, {
@@ -54,7 +63,7 @@ Meteor.methods({
         text,
         createdAt: new Date(),
         owner: this.userId,
-        username: Meteor.users.findOne(this.userId).username,
+        username: user.username,
         hearts: 0,
       });
     }
@@ -100,6 +109,7 @@ Meteor.methods({
         }
       }
     }
+    text = text + `Get more curated links on http://asteroid.eu.meteorapp.com \n`
     return text;
   }
 

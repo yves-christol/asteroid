@@ -19,7 +19,7 @@ import GoHeart from 'react-icons/lib/go/heart';
 export default class Search extends Component {
   handleChange(event) {
 		const search = ReactDOM.findDOMNode(this.refs.searchInput).value.trim();
-		Session.set({'searchQuery': search});
+		Meteor.setTimeout(() => Session.set({'searchQuery': search}), 300);
   }
 
   render() {

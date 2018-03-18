@@ -22,3 +22,4 @@ accounts-ui
 accounts-password
 session
 ros:publish-counts
+email
