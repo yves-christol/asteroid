@@ -105,11 +105,11 @@ Meteor.methods({
       if (linkId) {
         const link = Links.findOne(linkId);
         if (link) {
-          text = text + `${link.text} -> ${link.url} \n`
+          text = text + `${link.text} -> ${link.url}\n`
         }
       }
     }
-    text = text + `Get more curated links on http://asteroid.eu.meteorapp.com \n`
+    text = text + `\nGet more curated links on http://asteroid.eu.meteorapp.com\n`
     return text;
   }
 
